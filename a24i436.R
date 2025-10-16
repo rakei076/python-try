@@ -37,8 +37,8 @@ d3<-c(3.0,4.5,2.1,5.6,4.7)
 df<-data.frame(n1=d1,n2=d2,n3=d3)
 df
 
-x<-read.csv("sample1.csv")
-x
+# x<-read.csv("sample1.csv")  # 文件不存在，已注释
+# x
 iris
 class(iris)
 d<-iris
@@ -65,3 +65,79 @@ d3<-rbind(d2,d2[5,])
 ncol(d):nrow(d)
 ncol(d2):nrow(d2)
 ncol(d3):nrow(d3)
+
+
+
+
+
+
+
+
+data<-read.csv("data0.csv")
+bmi<-function(h,w){
+    
+    bmi<-w/(h/100)^2
+    return(round(bmi,1))
+}
+BMI<-c()
+for(i in 1:length(data$Height)){
+    x<-bmi(data[i,1],data[i,2])
+    BMI<-c(BMI,x)
+}
+BMI
+
+data$BMI<-BMI
+
+check<-function(BMI){
+    if(BMI<18.5){
+        return("Less")
+    }else if(BMI>=18.5 && BMI<25.0){
+        return("Good")
+    }else{
+        return("Over")
+    }
+}
+data$CHK<-sapply(BMI,check)
+data
+write.csv(data, file="data1.csv",row.names=FALSE)
+ncol(data)
+nrow(data)
+colnames(data)
+
+
+
+
+data<-read.csv("grades.csv")
+apply(data[,2:6],2,max)
+apply(data[,2:6],2,min)
+apply(data[,2:6],2,mean)
+myMwan<-function(x){
+    return(round(mean(x),1))
+}
+apply(data[,2:6],2,myMwan)
+
+myMean<-function(x){
+    return(round(mean(x),1))
+}
+nc<-apply(data[,2:6],1,myMean)
+nc
+nrow(data)
+data$FF<-nc
+data
+
+check<-function(x){
+    if(x<60){
+        return("D")
+    }else if(x>=60 && x<70){
+        return("C")
+    }else if(x>=70 && x<80){
+        return("B")
+    }else if(x>=80 && x<90){
+        return("A")
+    }else{
+        return("s")
+    }
+}
+data$FF<-sapply(data$FF,check)
+data
+write.csv(data, file="data2.csv",row.names=FALSE)
